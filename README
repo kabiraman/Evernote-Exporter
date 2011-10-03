@@ -1,0 +1,1 @@
+A desktop app that allows you to schedule your Evernote exports. Exports all your Evernote notes to an .enex file. Intended to be used with Evernote 4.0 and later on Windows XP SP3 and later. Developed in C# for .Net 2.0 and above.
