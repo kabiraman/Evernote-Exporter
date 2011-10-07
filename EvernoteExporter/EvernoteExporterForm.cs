@@ -18,6 +18,8 @@ namespace EvernoteExporter
 
         private const string EXPORTING = "Exporting...";
 
+        private const string EVERNOTE_EXECUTABLE = "ENScript.exe";
+
         private string m_lastExported;
         
         public EvernoteExporterForm()
@@ -36,7 +38,7 @@ namespace EvernoteExporter
             m_exportTimer.Start();
 
             this.Text = TITLE + SEPARATOR  + TAGLINE;
-            m_versionTextBox.Text = "0.1.0";
+            m_versionTextBox.Text = "0.2.0";
         }
 
         private void EvernoteExporterForm_Activated(object sender, System.EventArgs e)
@@ -108,7 +110,7 @@ namespace EvernoteExporter
 
         private void ExportNowButton_Click(object sender, EventArgs e)
         {
-            InitializeExport();
+            InitializeExport(EVERNOTE_EXECUTABLE);
         }
 
         private void OpenDialogButton_Click(object sender, EventArgs e)
@@ -243,7 +245,7 @@ namespace EvernoteExporter
             {
                 if (m_lastExported == null)
                 {
-                    InitializeExport();
+                    InitializeExport(EVERNOTE_EXECUTABLE);
                     m_lastExported = DateTime.Now.ToString();
                 }
                 else
@@ -259,34 +261,55 @@ namespace EvernoteExporter
             }
         }
 
-        private void InitializeExport()
+        private void InitializeExport(string pathToEvernote)
         {
             if (IsExportLocationValid(Properties.Settings.Default.ExportLocation))
             {
                 this.Text = TITLE + SEPARATOR + EXPORTING;
                 Application.UseWaitCursor = true;
                 m_saveButton.Enabled = m_revertButton.Enabled = m_exportNowButton.Enabled = false;
-                m_exporter.RunWorkerAsync();
+                m_exporter.RunWorkerAsync(pathToEvernote);
             }
         }
 
-        private void DoExport()
+        private void DoExport(string pathToEvernote)
+        {
+            try
+            {
+                TryDoExport(pathToEvernote);
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
+                    "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\ENScript.exe");
+                if (key == null)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    TryDoExport(key.GetValue("Path").ToString() + pathToEvernote);
+                }
+            }
+        }
+
+        private void TryDoExport(string pathToEvernote)
         {
             // for quick exports, let the user notice that the export is taking place
             System.Threading.Thread.Sleep(2000);
 
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.FileName = "ENScript.exe";
+            startInfo.FileName = pathToEvernote;
             startInfo.Arguments = string.Format("exportNotes /q any: /f \"{0}\"",
                 Properties.Settings.Default.ExportLocation);
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-            System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);                
+            System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo);
         }
 
         private void Exporter_DoWork(object sender, DoWorkEventArgs e)
         {
-            DoExport();
+            DoExport(e.Argument.ToString());
         }
 
         private void Exporter_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -295,10 +318,10 @@ namespace EvernoteExporter
 
             if (e.Error != null)
             {
-                m_lastRunValue.Text = m_lastRunValue.Text.Replace("succesful", "failed");
+                m_lastRunValue.Text = m_lastRunValue.Text.Replace("successful", "failed");
 
-                Console.WriteLine(e.Error.ToString());
-                MessageBox.Show("Unexpected Export failure!", TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                System.Diagnostics.Debug.WriteLine(e.Error.ToString());
+                MessageBox.Show("Unexpected Export failure!", TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);                
             }
 
             this.Text = TITLE + SEPARATOR + TAGLINE;
@@ -318,7 +341,7 @@ namespace EvernoteExporter
         private void DoScheduledExport()
         {
             m_notifyIcon.ShowBalloonTip(2000, TITLE, EXPORTING, ToolTipIcon.Info);
-            InitializeExport();
+            InitializeExport(EVERNOTE_EXECUTABLE);
             m_lastExported = DateTime.Now.ToString();
         }
 
