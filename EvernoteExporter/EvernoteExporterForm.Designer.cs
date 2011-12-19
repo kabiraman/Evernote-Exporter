@@ -46,7 +46,6 @@
             this.m_repeatsComboBox = new System.Windows.Forms.ComboBox();
             this.m_repeatsLabel = new System.Windows.Forms.Label();
             this.m_basicSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.m_startDateValue = new System.Windows.Forms.TextBox();
             this.m_startDateLabel = new System.Windows.Forms.Label();
             this.m_openDialogButton = new System.Windows.Forms.Button();
             this.m_exportLocationTextBox = new System.Windows.Forms.TextBox();
@@ -68,6 +67,7 @@
             this.m_developerLabel = new System.Windows.Forms.Label();
             this.m_versionTextBox = new System.Windows.Forms.TextBox();
             this.m_versionLabel = new System.Windows.Forms.Label();
+            this.m_startDateValue = new System.Windows.Forms.DateTimePicker();
             this.m_tabControl.SuspendLayout();
             this.m_exporterTab.SuspendLayout();
             this.m_repeatSettingsGroupBox.SuspendLayout();
@@ -240,15 +240,6 @@
             this.m_basicSettingsGroupBox.TabStop = false;
             this.m_basicSettingsGroupBox.Text = "Basic";
             // 
-            // m_startDateValue
-            // 
-            this.m_startDateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_startDateValue.Location = new System.Drawing.Point(119, 56);
-            this.m_startDateValue.Name = "m_startDateValue";
-            this.m_startDateValue.ReadOnly = true;
-            this.m_startDateValue.Size = new System.Drawing.Size(121, 20);
-            this.m_startDateValue.TabIndex = 6;
-            // 
             // m_startDateLabel
             // 
             this.m_startDateLabel.AutoSize = true;
@@ -376,7 +367,7 @@
             this.m_acknowledgementValue.Size = new System.Drawing.Size(251, 31);
             this.m_acknowledgementValue.TabIndex = 39;
             this.m_acknowledgementValue.Text = "The Evernote Exporter logo has been licensed from Everaldo Coelho (http://www.eve" +
-                "raldo.com)";
+    "raldo.com)";
             // 
             // m_acknowledgementLabel
             // 
@@ -487,6 +478,16 @@
             this.m_versionLabel.TabIndex = 29;
             this.m_versionLabel.Text = "Version:";
             // 
+            // m_startDateValue
+            // 
+            this.m_startDateValue.CustomFormat = "dd MMM, yyyy HH:mm";
+            this.m_startDateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_startDateValue.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.m_startDateValue.Location = new System.Drawing.Point(119, 59);
+            this.m_startDateValue.Name = "m_startDateValue";
+            this.m_startDateValue.Size = new System.Drawing.Size(217, 20);
+            this.m_startDateValue.TabIndex = 10;
+            // 
             // EvernoteExporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -548,12 +549,12 @@
         private System.Windows.Forms.TextBox m_exportLocationTextBox;
         private System.Windows.Forms.Label m_exportLocationLabel;
         private System.Windows.Forms.Label m_startDateLabel;
-        private System.Windows.Forms.TextBox m_startDateValue;
         private System.Windows.Forms.GroupBox m_statusGroupBox;
         private System.Windows.Forms.Label m_nextExportValue;
         private System.Windows.Forms.Label m_nextExportLabel;
         private System.Windows.Forms.Label m_lastRunValue;
         private System.Windows.Forms.Label m_lastRunLabel;
+        private System.Windows.Forms.DateTimePicker m_startDateValue;
     }
 }
 

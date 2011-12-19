@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{AFCCB115-99F6-466C-AB89-B244A5E5D8BA}
 AppName=Evernote Exporter
-AppVerName=Evernote Exporter 0.2.0
+AppVerName=Evernote Exporter 0.4.0
 AppPublisher=Karthik Abiraman
 AppPublisherURL=http://evernoteexporter.codeplex.com
 AppSupportURL=http://evernoteexporter.codeplex.com
@@ -15,7 +15,7 @@ AppUpdatesURL=http://evernoteexporter.codeplex.com
 DefaultDirName={pf}\Evernote Exporter
 DefaultGroupName=Evernote Exporter
 AllowNoIcons=yes
-OutputBaseFilename=EvernoteExporter_0.2.0_setup
+OutputBaseFilename=EvernoteExporter_0.4.0_setup
 Compression=lzma
 SolidCompression=yes
 
