@@ -36,7 +36,7 @@ namespace EvernoteExporter
             m_exportTimer.Start();
 
             this.Text = TITLE + SEPARATOR  + TAGLINE;
-            m_versionTextBox.Text = "0.4.0";
+            m_versionTextBox.Text = "0.4.1";
         }
 
         private void EvernoteExporterForm_Activated(object sender, System.EventArgs e)
@@ -296,7 +296,7 @@ namespace EvernoteExporter
 
         private DateTime DetermineNextScheduledExport()
         {
-            if (Properties.Settings.Default.LastScheduledRun == null)
+            if (string.IsNullOrEmpty(Properties.Settings.Default.LastScheduledRun))
                 return DateTime.Parse(Properties.Settings.Default.ExportStartDate);
 
             int interval = int.Parse(Properties.Settings.Default.RepeatSchedule);
